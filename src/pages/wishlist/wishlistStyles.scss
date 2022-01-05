@@ -1,0 +1,27 @@
+.wishlist{
+  display: flex;
+  @include content-wrapper;
+  &__content{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 40px 24px 0 24px;
+
+    & > h1 {
+      font-size: 32px;
+    }
+
+    & > h3 {
+      font-size: 22px;
+      padding-top: 60px;
+      padding-bottom: 10px;
+    }
+
+    & > p {
+      padding-bottom: 20px;
+      color: rgb(113, 113, 113);
+      font-size: 14px;
+    }
+  }
+}

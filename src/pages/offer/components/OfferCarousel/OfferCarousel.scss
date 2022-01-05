@@ -1,0 +1,12 @@
+.offer-carousel{
+  height: 70vh;
+  max-width: 800px;
+  margin: 10px auto 0 auto;
+
+  &__image{
+    height: 70vh;
+    width: 100%;
+    object-fit: contain;
+  }
+
+}

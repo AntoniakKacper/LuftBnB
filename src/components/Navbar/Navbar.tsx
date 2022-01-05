@@ -1,0 +1,33 @@
+import React from "react";
+//import {RootState} from "store";
+import { Link } from "react-router-dom";
+import AirIcon from "@mui/icons-material/Air";
+
+interface NavbarProps {}
+
+const Navbar: React.FC<NavbarProps> = () => {
+  //const { authenticated } = useSelector((state: RootState) => state.auth);
+  const authenticated = false;
+  return (
+    <nav className="navbar centerXY">
+      {authenticated ? (
+        <div className="navbar__content">
+          <Link to="/home" className="navbar__content__company-name">
+            LuftB&B
+          </Link>
+
+          <></>
+        </div>
+      ) : (
+        <div className="navbar__content">
+          <Link to="/home" className="navbar__content__company-name">
+            LuftB&B
+          </Link>
+          <AirIcon fontSize="large" />
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
