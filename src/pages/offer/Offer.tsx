@@ -2,13 +2,13 @@ import React from "react";
 import {Offer as OfferModel} from "models/Offer";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {useNavigate} from 'react-router-dom';
-import {Carousel} from "react-responsive-carousel";
-import OfferCarousel from './components/OfferCarousel/OfferCarousel';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarIcon from '@mui/icons-material/Star';
 import Avatar from '@mui/material/Avatar';
-
+import {Calendar} from './components/OfferCalendar/Calendar';
+import {OfferReservation} from "./components/OfferReservation/OfferReservation";
+import {OfferOpinions} from "./components/OfferOpinions/OfferOpinions";
 
 
 interface OfferProps {
@@ -46,13 +46,6 @@ const Offer: React.FC<OfferProps> = ({offer}) => {
                         <div>
                             <p>Mały domek</p>
                             <p>Gospodarz: Tom</p>
-                            <div className="offer__apartment-info">
-                                <span>4 gości</span>
-                                <span>2 sypialnie</span>
-                                <span>4 łóżka</span>
-                                <span>1 łazienka</span>
-
-                            </div>
                         </div>
                         <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1493106819501-66d381c466f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" />
 
@@ -64,7 +57,11 @@ const Offer: React.FC<OfferProps> = ({offer}) => {
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aspernatur, doloribus earum, explicabo fugit impedit libero maxime obcaecati optio quia quibusdam quidem quos ratione similique totam unde vero vitae voluptatem!</p>
                 </div>
                 <div className="offer__divider"/>
-                <div>kalendarz</div>
+                <article className="offer__reservation">
+                    <Calendar/>
+                    <OfferReservation/>
+                </article>
+
                 <div className="offer__divider"/>
                 <div>rezenzje</div>
 
