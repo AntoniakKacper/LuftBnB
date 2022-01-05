@@ -25,7 +25,7 @@
     text-align: start;
   }
 
-  &__clickable-text{
+  &--clickable-text{
     text-decoration: underline;
     color: $grey;
   }
@@ -41,8 +41,6 @@
   &__ratings{
     @include centerXY;
     margin-right: 6px;
-
-
 
     & > p {
       margin-left: 3px;

@@ -10,6 +10,7 @@ import StarIcon from '@mui/icons-material/Star';
 import Avatar from '@mui/material/Avatar';
 
 
+
 interface OfferProps {
     offer: OfferModel;
 }
@@ -31,11 +32,11 @@ const Offer: React.FC<OfferProps> = ({offer}) => {
 
                 <div className="offer__info">
                     <span className="offer__ratings">
-                    <StarIcon />
-                    <p>4,86</p>
-                    <p className="offer__clickable-text">(22 recenzje)</p>
-                </span>
-                    <p className="offer__clickable-text">Śluza, Polska</p>
+                        <StarIcon />
+                        <p>4,86</p>
+                        <p className="offer--clickable-text">(22 recenzje)</p>
+                    </span>
+                    <p className="offer--clickable-text">Śluza, Polska</p>
                 </div>
 
                 <div className="offer__divider"/>
