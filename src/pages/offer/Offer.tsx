@@ -17,45 +17,50 @@ interface OfferProps {
 
 const Offer: React.FC<OfferProps> = ({offer}) => {
     const navigate = useNavigate();
-
     return (
         <main className="offer">
             <nav className="offer__nav">
                 <ChevronLeftIcon onClick={() => navigate(-1)}/>
-                <FavoriteBorderIcon />
+                <FavoriteBorderIcon/>
             </nav>
-                <img className="offer__image" src="https://images.unsplash.com/photo-1639975721105-98fc58c37822?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="zdjecie"/>
+            <img className="offer__image"
+                 src="https://images.unsplash.com/photo-1639975721105-98fc58c37822?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                 alt="zdjecie"/>
+
             <section className="offer__content">
                 <h1 className="offer__title">
                     {offer.title}
                 </h1>
 
-                <div className="offer__info">
+                <article className="offer__info">
                     <span className="offer__ratings">
-                        <StarIcon />
+                        <StarIcon/>
                         <p>4,86</p>
                         <p className="offer--clickable-text">(22 recenzje)</p>
                     </span>
                     <p className="offer--clickable-text">Śluza, Polska</p>
-                </div>
+                </article>
 
                 <div className="offer__divider"/>
 
-                <div className="offer__info">
+                <article className="offer__info">
                     <div className="offer__host-info">
                         <div>
                             <p>Mały domek</p>
                             <p>Gospodarz: Tom</p>
                         </div>
-                        <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1493106819501-66d381c466f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" />
+                        <Avatar alt="Remy Sharp"
+                                src="https://images.unsplash.com/photo-1493106819501-66d381c466f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"/>
 
                     </div>
 
-                </div>
+                </article>
                 <div className="offer__divider"/>
-                <div className="offer__description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aspernatur, doloribus earum, explicabo fugit impedit libero maxime obcaecati optio quia quibusdam quidem quos ratione similique totam unde vero vitae voluptatem!</p>
-                </div>
+                <article className="offer__description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aspernatur, doloribus earum,
+                        explicabo fugit impedit libero maxime obcaecati optio quia quibusdam quidem quos ratione
+                        similique totam unde vero vitae voluptatem!</p>
+                </article>
                 <div className="offer__divider"/>
                 <article className="offer__reservation">
                     <Calendar/>
@@ -63,10 +68,10 @@ const Offer: React.FC<OfferProps> = ({offer}) => {
                 </article>
 
                 <div className="offer__divider"/>
-                <div>rezenzje</div>
+                <article className="offer__opinions">
+                    <OfferOpinions/>
+                </article>
 
-
-                {/*<OfferCarousel images={[]}/>*/}
             </section>
 
 
