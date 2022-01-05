@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 
 
 
+
 interface OfferProps {
     offer: OfferModel;
 }
