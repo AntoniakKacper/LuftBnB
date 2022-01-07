@@ -14,7 +14,7 @@ interface SearchDrawerProps {}
 export const SearchDrawer: React.FC<SearchDrawerProps> = ({}) => {
   return (
     <section>
-      <div className="search">
+      <div className="search-drawer">
         <div>
           <IconButton aria-label="delete">
             <ChevronLeftIcon />
@@ -22,7 +22,7 @@ export const SearchDrawer: React.FC<SearchDrawerProps> = ({}) => {
 
           <input
             type="text"
-            className="search__input"
+            className="search-drawer__input"
             placeholder="Dokąd chcesz pojechać?"
           />
         </div>

@@ -6,7 +6,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarIcon from '@mui/icons-material/Star';
 import Avatar from '@mui/material/Avatar';
-import {Calendar} from './components/OfferCalendar/Calendar';
+import {Calendar} from 'components/Calendar/Calendar';
 import {OfferReservation} from "./components/OfferReservation/OfferReservation";
 import {OfferOpinions} from "./components/OfferOpinions/OfferOpinions";
 

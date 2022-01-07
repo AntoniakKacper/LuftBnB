@@ -10,6 +10,7 @@ import { Home } from "../pages/home/Home";
 import { Wishlist } from "../pages/wishlist/Wishlist";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
+import { Search } from "../pages/search/Search";
 
 interface RoutesProps {
 }
@@ -72,6 +73,14 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
             </ProtectedRoute>
           }
         />
+          <Route
+              path="/search"
+              element={
+                  <PublicRoute>
+                      <Search/>
+                  </PublicRoute>
+              }
+          />
         <Route
           path="/offer"
           element={

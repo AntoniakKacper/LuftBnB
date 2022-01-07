@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
+import { Link } from 'react-router-dom';
 
 interface WishlistProps {}
 
@@ -13,9 +14,11 @@ export const Wishlist: React.FC<WishlistProps> = ({}) => {
         <p>
           Listy życzeń możesz tworzyć, wyświetlać lub edytować po zalogowaniu.
         </p>
-        <Button type="submit" variant="contained">
-          Zaloguj się
-        </Button>
+        <Link to="/signin">
+          <Button type="submit" variant="contained">
+            Zaloguj się
+          </Button>
+        </Link>
       </section>
     </main>
   );
