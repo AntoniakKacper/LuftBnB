@@ -11,6 +11,9 @@ import { Wishlist } from "../pages/wishlist/Wishlist";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 import { Search } from "../pages/search/Search";
+import { UserContext } from "../context/UserContext";
+import { AddOffer } from "pages/addOffer/AddOffer";
+
 
 interface RoutesProps {
 }
@@ -23,8 +26,9 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
         city: "Choroszcz",
         maxPeople: 10,
         dailyPrice: 25,
-        owner: {},
-        opinions: {}
+        mainImage: "",
+      owner: {},
+      opinions: {}
     }
 
   useEffect(() => {
@@ -32,6 +36,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
   return (
     <Router>
       <Navbar/>
+
       <Routes>
         <Route
           path="/"
@@ -49,6 +54,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
             </PublicRoute>
           }
         />
+
         <Route
           path="/signup"
           element={
@@ -57,50 +63,53 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
             </PublicRoute>
           }
         />
-        <Route
-          path="/signin"
-          element={
-            <PublicRoute>
-              <SignIn/>
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/wishlist"
-          element={
-            <ProtectedRoute>
-              <Wishlist/>
-            </ProtectedRoute>
-          }
-        />
           <Route
-              path="/search"
+              path="/signin"
               element={
                   <PublicRoute>
-                      <Search/>
+                      <SignIn/>
                   </PublicRoute>
               }
           />
-        <Route
-          path="/offer"
-          element={
-            <ProtectedRoute>
-              <Offer offer={fakeOffer}/>
-            </ProtectedRoute>
-          }
-        />
-
-        {/*<Route*/}
-        {/*  path="/home"*/}
-        {/*  element={*/}
-        {/*    <ProtectedRoute>*/}
-        {/*      <Home />*/}
-        {/*      /!*  <SignIn />*!/*/}
-        {/*      /!*<SignUp />*!/*/}
-        {/*    </ProtectedRoute>*/}
-        {/*  }*/}
-        {/*/>*/}
       </Routes>
+
+        <UserContext>
+        <Routes>
+
+                <Route
+                    path="/wishlist"
+                    element={
+                        <ProtectedRoute>
+                            <Wishlist/>
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/search"
+                    element={
+                        <PublicRoute>
+                          <Search/>
+                        </PublicRoute>
+                    }
+                />
+                <Route
+                    path="/offer/:id"
+                    element={
+                        <ProtectedRoute>
+                            <Offer />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                  path="/addOffer"
+                  element={
+                    <ProtectedRoute>
+                      <AddOffer />
+                    </ProtectedRoute>
+                  }
+                />
+        </Routes>
+    </UserContext>
 
       <BottomNavbar/>
     </Router>

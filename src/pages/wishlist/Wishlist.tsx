@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 interface WishlistProps {}
 
 export const Wishlist: React.FC<WishlistProps> = ({}) => {
-  const authenticated = false;
+
   return (
     <main className="wishlist">
       <section className="wishlist__content">

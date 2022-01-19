@@ -3,8 +3,11 @@ import Drawer from "@mui/material/Drawer";
 import { SearchDrawer } from "./SearchDrawer";
 import SearchIcon from "@mui/icons-material/Search";
 
+
 interface HomeProps {}
+
 export const Home: React.FC<HomeProps> = () => {
+
   const [visible, setVisible] = useState(false);
   const toggle = () => {
     setVisible(!visible);

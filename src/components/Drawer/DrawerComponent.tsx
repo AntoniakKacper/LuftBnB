@@ -6,10 +6,11 @@ interface DrawerComponentProps {
     buttonLabel?: string;
     drawerContent: JSX.Element;
     drawerIcon?: React.ReactElement<SvgIconProps>;
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const DrawerComponent: React.FC<DrawerComponentProps> = ({drawerIcon, buttonLabel, drawerContent}) => {
-    const [visible, setVisible] = useState(false);
+export const DrawerComponent: React.FC<DrawerComponentProps> = ({drawerIcon, buttonLabel, drawerContent, visible, setVisible}) => {
     const toggle = () => {
         setVisible(!visible);
     };

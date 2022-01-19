@@ -53,8 +53,9 @@
 
   &__host-info{
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
   }
 
@@ -77,6 +78,15 @@
     }
   }
 
+  &__opinion-fetch-wrapper{
+    padding-top: 15px;
+    @include content-wrapper;
+    @include centerXY;
+  }
+
+  &__opinion-refresh-button{
+    color: white
+  }
 
   &__divider{
     border: 1px solid $light-grey;

@@ -2,18 +2,19 @@ import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
 
 interface OfferOpinionsProps {
-
+    rateCount: number;
+    opinionsCount: number;
 }
 
-export const OfferOpinions: React.FC<OfferOpinionsProps> = ({}) => {
+export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinionsCount}) => {
 
     return (<section>
         <div className="opinions-title">
             <p>Recenzje</p>
             <span className="offer__ratings">
                         <StarIcon/>
-                        <p>4,86</p>
-                        <p className="offer--clickable-text">(22 recenzje)</p>
+                        <p>{rateCount.toFixed(2)}</p>
+                        <p className="offer--clickable-text">(Ilość recenzji: {opinionsCount})</p>
                     </span>
         </div>
         <div className="opinion">

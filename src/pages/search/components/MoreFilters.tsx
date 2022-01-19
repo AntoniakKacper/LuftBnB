@@ -5,19 +5,25 @@ import Slider from "@mui/material/Slider";
 import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+
 
 
 interface MoreFiltersProps {
-
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    visible: boolean;
 }
 
 function valuetext(value: number) {
-    return `${value}°C`;
+    return `${value} $`;
 }
 
 const minDistance = 10;
-export const MoreFilters: React.FC<MoreFiltersProps> = ({}) => {
-    const [value1, setValue1] = React.useState<number[]>([20, 37]);
+
+export const MoreFilters: React.FC<MoreFiltersProps> = ({setVisible, visible}) => {
+    const [price, setPrice] = React.useState<number[]>([100, 700]);
 
     const handleChange1 = (
         event: Event,
@@ -29,39 +35,78 @@ export const MoreFilters: React.FC<MoreFiltersProps> = ({}) => {
         }
 
         if (activeThumb === 0) {
-            setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
+            setPrice([Math.min(newValue[0], price[1] - minDistance), price[1]]);
         } else {
-            setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
+            setPrice([price[0], Math.max(newValue[1], price[0] + minDistance)]);
         }
     };
-    return (<div>
-        <IconButton aria-label="delete">
-            <CloseIcon />
-        </IconButton>
-        <h1>Więcej filtrów</h1>
-        <p>
-            Cena za noc
 
-        </p>
-        <Slider
-            getAriaLabel={() => 'Minimum distance'}
-            value={value1}
-            onChange={handleChange1}
-            valueLabelDisplay="auto"
-            getAriaValueText={valuetext}
-            disableSwap
-        />
-        <p>
-            Rodzaj nieruchomości
-        </p>
-        <div>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="1 rodzaj" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="2 rodzaj" />
+    return (<div className="more-filters">
+            <div className="more-filters__header">
+                <IconButton onClick={() => setVisible(!visible)}>
+                    <CloseIcon />
+                </IconButton>
+                <h2>Więcej filtrów</h2>
+                <div></div>
+            </div>
+        <div className="more-filters__container">
+
+            <div className="more-filters__price">
+                <h2>
+                    Cena za noc
+
+                </h2>
+                <Slider
+                    getAriaLabel={() => 'Minimum distance'}
+                    value={price}
+                    onChange={handleChange1}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={valuetext}
+                    disableSwap
+                    max={1000}
+                    min={20}
+                />
+                <div className="more-filters__price__inputs">
+                    <TextField
+                        label="Cena minimalna"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '15ch' }}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">zł</InputAdornment>,
+                        }}
+                        value={price[0]}
+                    />
+                    <h2>-</h2>
+                    <TextField
+                        label="Cena maksymalna"
+                        id="outlined-start-adornment"
+                        sx={{ m: 1, width: '15ch' }}
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">zł</InputAdornment>,
+                        }}
+                        value={price[1]}
+                    />
+                </div>
+            </div>
+            <div className="more-filters__property-type">
+                <h2>
+                    Rodzaj nieruchomości
+                </h2>
+                <div>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Dom" />
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Apartament" />
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Hostel" />
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Hotel" />
+                </div>
+            </div>
+
+            <div className="more-filters__facilities">
+                <h2>
+                    Palenie
+                </h2>
+                <FormControlLabel control={<Switch />} label={<SmokingRoomsIcon />} />
+            </div>
         </div>
-        <p>
-            Palenie
-        </p>
-        <FormControlLabel control={<Switch />} label="Palenie" />
 
     </div>);
 };

@@ -44,6 +44,10 @@ body {
   src: url("../../src/fonts/brown-regular.otf") format("opentype");
 }
 
+.MuiButton-root {
+  text-transform: none;
+}
+
 
 h1,
 h2,

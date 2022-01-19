@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 interface BottomNavbarProps {}
 
@@ -16,6 +17,7 @@ interface ButtonType {
 }
 
 const BottomNavbar: React.FC<BottomNavbarProps> = ({}) => {
+  const authenticated = true;
   const listOfActions: ButtonType[] = [
     {
       label: "Wyszukaj",
@@ -27,11 +29,15 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({}) => {
       path: "wishlist",
       icon: <FavoriteBorderIcon />,
     },
-    {
-      label: "Zaloguj się",
+    authenticated ? {
+      label: "Dodaj ofertę",
+      path: "addOffer",
+      icon: <AddCircleOutlineIcon />,
+    } : {
+    label: "Zaloguj się",
       path: "signup",
       icon: <AccountCircleIcon />,
-    },
+  }
   ];
   const [value, setValue] = useState("search");
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
