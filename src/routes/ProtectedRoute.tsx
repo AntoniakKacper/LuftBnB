@@ -1,19 +1,15 @@
 import { Navigate, useLocation } from "react-router-dom";
-import React from "react";
-//import { RootState } from "store";
+import React, { useContext } from "react";
+import { UserContext } from "../context/AuthProvider";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  //const { authenticated } = useSelector((state: RootState) => state.auth);
-  const authenticated = true;
-  //   if (loading) {
-  //     return <p>Checking authenticaton..</p>;
-  //   }
+  const {state} = useContext(UserContext);
 
-  if (authenticated) {
+  if (state.authenticated) {
     return children;
   }
 

@@ -2,24 +2,42 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import "App.scss";
 import { PasswordInput, TextInput } from "components";
-import { signUpData } from "models/Authentication";
-import React from "react";
+import { signInData, signUpData } from "models/Authentication";
+import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 //import { signUp } from "store/actions/authActions";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "./ValidationSchema";
+import { useMutation } from "react-query";
+import axios from "../../utils/axiosInstance";
+import { UserActions, UserContext } from "../../context/AuthProvider";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface SignUpProps {
 }
 
 export const SignUp: React.FC<SignUpProps> = () => {
   //const action = useDispatch();
+  const { state, dispatch } = useContext(UserContext);
+  const { data, isLoading, mutate } = useMutation(async (user: signInData) => {
+    const response = await axios.post('./auth/register', user);
+    console.log(response);
+    return response;
+  }, {
+    onSuccess: (data) => {
+      dispatch({ type: UserActions.setToken, payload: data.data.access_token });
+      dispatch({ type: UserActions.setRefreshToken, payload: data.data.refresh_token });
+      localStorage.setItem("LuftBnBAccessToken", data.data.access_token);
+      localStorage.setItem("LuftBnBRefreshToken", data.data.refresh_token);
+      console.log(state);
+    }
+  });
   const methods = useForm<signUpData>({
     resolver: yupResolver(signUpSchema),
   });
 
   const onSubmit = (data: signUpData) => {
-    //action(signUp(data));
+    mutate(data)
   };
   return (
     <main className="auth">
@@ -59,9 +77,12 @@ export const SignUp: React.FC<SignUpProps> = () => {
             name="password_confirmation"
             variant="outlined"
           />
-          <Button type="submit" variant="contained">
+
+          {isLoading ? <LoadingButton loading variant="contained">
+            Submit
+          </LoadingButton> :<Button type="submit" variant="contained">
             Zarejestruj się
-          </Button>
+          </Button>}
         </form>
       </FormProvider>
 

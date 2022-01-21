@@ -1,33 +1,50 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import "App.scss";
-import { PasswordInput } from "components";
-import { TextInput } from "components";
+import { PasswordInput, TextInput } from "components";
 import { signInData } from "models/Authentication";
-import React from "react";
+import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-//import {RootState} from "store";
-//import {signIn, signInSocial} from "store/actions/authActions";
 import { signInSchema } from "./ValidationSchema";
 import { Link } from "react-router-dom";
+import { UserActions, UserContext } from "../../context/AuthProvider";
+import { useMutation } from "react-query";
+import axios from "../../utils/axiosInstance";
+import LoadingButton from '@mui/lab/LoadingButton';
 
-interface SignInProps {}
+interface SignInProps {
+}
 
 export const SignIn: React.FC<SignInProps> = () => {
+  const { dispatch } = useContext(UserContext);
+  const { data, isLoading, mutate } = useMutation(async (user: signInData) => {
+    const response = await axios.post('./auth/login', user);
+    console.log(response);
+    return response;
+  }, {
+    onSuccess: (data) => {
+      dispatch({ type: UserActions.setToken, payload: data.data.access_token });
+      dispatch({ type: UserActions.setRefreshToken, payload: data.data.refresh_token });
+      localStorage.setItem("LuftBnBAccessToken", data.data.access_token);
+      localStorage.setItem("LuftBnBRefreshToken", data.data.refresh_token);
+    }
+  });
+  console.log(data);
+
   const methods = useForm<signInData>({
     resolver: yupResolver(signInSchema),
   });
+
+
   const onSubmit = (data: signInData) => {
-    //action(setLoading(true));
-    //action(signIn(data));
-    //action(setLoading(false));
+    console.log(data);
+    mutate(data);
   };
 
   return (
     <main className="auth">
       <div className="auth__header">
         <h1>Zaloguj się</h1>
-        <p>Zaloguj się jedną z wybranych opcji</p>
       </div>
 
       <FormProvider {...methods}>
@@ -42,11 +59,13 @@ export const SignIn: React.FC<SignInProps> = () => {
             type="email"
             variant="outlined"
           />
-          <PasswordInput label="Hasło" name="password" variant="outlined" />
+          <PasswordInput label="Hasło" name="password" variant="outlined"/>
 
-          <Button type="submit" variant="contained">
+          {isLoading ? <LoadingButton loading variant="contained">
+            Submit
+          </LoadingButton> : <Button type="submit" variant="contained">
             Zaloguj się
-          </Button>
+          </Button>}
         </form>
         <div className="auth__footer">
           <p>Nie masz konta? </p>
@@ -56,3 +75,4 @@ export const SignIn: React.FC<SignInProps> = () => {
     </main>
   );
 };
+

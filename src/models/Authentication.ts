@@ -22,4 +22,5 @@ export interface AuthState {
     user: User | null;
     authenticated: boolean;
     token: string | null;
+    refreshToken: string | null;
 }

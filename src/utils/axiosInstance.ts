@@ -7,7 +7,7 @@ const axiosCustom = axios.create({
 })
 
 axiosCustom.interceptors.request.use(function (req: AxiosRequestConfig) {
-    req.headers!.authorization = `Bearer ${localStorage.getItem("LuftBnBToken")}`;
+    req.headers!.authorization = `Bearer ${localStorage.getItem("LuftBnBAccessToken")}`;
     return req;
 })
 

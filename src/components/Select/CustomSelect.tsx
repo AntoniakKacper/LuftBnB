@@ -38,7 +38,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ value, setValue, variant, l
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                {menuItems.map((menuItem) => (<MenuItem value={menuItem.value}>{menuItem.label}</MenuItem>))}
+                {menuItems.map((menuItem, index) => (<MenuItem key={index} value={menuItem.value}>{menuItem.label}</MenuItem>))}
             </Select>
         </FormControl>
     );

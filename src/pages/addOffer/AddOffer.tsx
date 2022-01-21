@@ -1,5 +1,6 @@
 import { CustomSelect } from 'components';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { UserActions, UserContext } from "../../context/AuthProvider";
 
 interface AddOfferProps {
 
@@ -14,6 +15,7 @@ const propertyTypes = [
 
 export const AddOffer: React.FC<AddOfferProps> = ({}) => {
   const [property, setProperty] = useState('');
+  const {dispatch} = useContext(UserContext);
 
   return (<main>
     <h1>Add Offer</h1>
@@ -28,5 +30,6 @@ export const AddOffer: React.FC<AddOfferProps> = ({}) => {
       ilosc gosci
       palenie
     </div>
+    <button onClick={() => dispatch({type: UserActions.logout, payload: ''})}>Wyloguj się</button>
   </main>);
 };

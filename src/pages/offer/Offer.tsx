@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarIcon from '@mui/icons-material/Star';
-import Avatar from '@mui/material/Avatar';
 import { Calendar } from 'components/Calendar/Calendar';
 import { OfferReservation } from "./components/OfferReservation/OfferReservation";
 import { OfferOpinions } from "./components/OfferOpinions/OfferOpinions";
@@ -12,18 +11,13 @@ import OfferCarousel from "./components/OfferCarousel/OfferCarousel";
 import { useQuery, UseQueryResult } from "react-query";
 import { fetchCities } from "../../actions/homePageActions";
 import { LoadingIndicator } from "components";
-import { getOfferById, getOfferOwner, getOfferOpinions, getOfferReservations } from "actions/offerPageActions";
+import { getOfferById, getOfferOpinions, getOfferOwner, getOfferReservations } from "actions/offerPageActions";
 import { Offer as OfferModel } from "../../models/Offer";
 import Button from "@mui/material/Button";
-import { CircularProgress } from "@mui/material";
 import { User } from "../../models/Authentication";
 
 interface OfferProps {
 
-}
-
-interface FetchOffer {
-  offer: OfferModel;
 }
 
 const Offer: React.FC<OfferProps> = () => {
