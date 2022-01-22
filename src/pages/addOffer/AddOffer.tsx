@@ -1,6 +1,6 @@
 import { CustomSelect } from 'components';
 import React, { useContext, useState } from 'react';
-import { UserActions, UserContext } from "../../context/AuthProvider";
+import { UserActions, UserContext } from "context/AuthProvider";
 
 interface AddOfferProps {
 
@@ -13,7 +13,7 @@ const propertyTypes = [
   }
 ]
 
-export const AddOffer: React.FC<AddOfferProps> = ({}) => {
+export const AddOffer: React.FC<AddOfferProps> = () => {
   const [property, setProperty] = useState('');
   const {dispatch} = useContext(UserContext);
 

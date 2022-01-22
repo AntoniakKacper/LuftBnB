@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,9 +9,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useQuery } from "react-query";
-import { fetchCities } from "../../actions/homePageActions";
+import { fetchCities } from "actions/homePageActions";
 import { LoadingIndicator } from 'components';
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import { SearchActions, SearchContext } from "context/SearchProvider";
 
 
 interface SearchDrawerProps {
@@ -19,6 +21,13 @@ interface SearchDrawerProps {
 
 export const SearchDrawer: React.FC<SearchDrawerProps> = ({}) => {
   const { isLoading, data, isError, refetch } = useQuery('cities', fetchCities);
+  const { state, dispatch } = useContext(SearchContext);
+
+  const handleClick = (city: string) => {
+    //dispatch({type: SearchActions.setCity, payload: city});
+    console.log(SearchActions.setCity)
+    dispatch({ type: SearchActions.setCity, payload: city });
+  }
 
   return (
     <section>
@@ -49,14 +58,16 @@ export const SearchDrawer: React.FC<SearchDrawerProps> = ({}) => {
 
           {isLoading ? <LoadingIndicator/> :
             <List>
-              {data && data.data.map((city: string) => (<ListItem disablePadding key={city}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LocationOnIcon/>
-                  </ListItemIcon>
-                  <ListItemText primary={city}/>
-                </ListItemButton>
-              </ListItem>))
+              {data && data.data.map((city: string) => (
+                <ListItem disablePadding key={city} to={`/search`} component={Link} onClick={() => handleClick(city)}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <LocationOnIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary={city}/>
+                  </ListItemButton>
+                </ListItem>
+              ))
               }
             </List>
           }

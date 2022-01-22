@@ -9,17 +9,16 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "./ValidationSchema";
 import { useMutation } from "react-query";
-import axios from "../../utils/axiosInstance";
-import { UserActions, UserContext } from "../../context/AuthProvider";
+import axios from "utils/axiosInstance";
+import { UserActions, UserContext } from "context/AuthProvider";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 interface SignUpProps {
 }
 
 export const SignUp: React.FC<SignUpProps> = () => {
-  //const action = useDispatch();
   const { state, dispatch } = useContext(UserContext);
-  const { data, isLoading, mutate } = useMutation(async (user: signInData) => {
+  const { isLoading, mutate } = useMutation(async (user: signInData) => {
     const response = await axios.post('./auth/register', user);
     console.log(response);
     return response;

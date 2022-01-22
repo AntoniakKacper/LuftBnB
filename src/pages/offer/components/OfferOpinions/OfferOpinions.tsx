@@ -1,12 +1,16 @@
 import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
+import { useQuery } from "react-query";
+import { getOfferOpinions } from "../../../../actions/offerPageActions";
+import { Opinion } from "../../../../models/Offer";
 
 interface OfferOpinionsProps {
     rateCount: number;
     opinionsCount: number;
+    opinions: Opinion[];
 }
 
-export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinionsCount}) => {
+export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinionsCount, opinions}) => {
 
     return (<section>
         <div className="opinions-title">
@@ -17,33 +21,21 @@ export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinions
                         <p className="offer--clickable-text">(Ilość recenzji: {opinionsCount})</p>
                     </span>
         </div>
-        <div className="opinion">
-            <div className="opinion__author">
-                <div>
-                    <p>Danielek</p>
-                    <p className="opinion__post-date">wrzesień 2021</p>
-                </div>
-                <div className="opinion__rating">4/5 <StarIcon /></div>
-            </div>
-            <p className="opinion__comment">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur id ipsum iure nulla rem vero
-                voluptate, voluptatibus. Beatae cumque, fugiat labore magnam odit porro possimus ut? Aut natus optio
-                quam?
-            </p>
-        </div>
-        <div className="opinion">
-            <div className="opinion__author">
-                <div>
-                    <p>Kacperek</p>
-                    <p className="opinion__post-date">wrzesień 2021</p>
-                </div>
-                <div className="opinion__rating">3/5 <StarIcon /></div>
-            </div>
-            <p className="opinion__comment">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur id ipsum iure nulla rem vero
-                voluptate, voluptatibus. Beatae cumque, fugiat labore magnam odit porro possimus ut? Aut natus optio
-                quam?
-            </p>
-        </div>
+        {
+            opinions.map((opinion) => (
+              <div className="opinion">
+                  <div className="opinion__author">
+                      <div>
+                          <p>{opinion.author.firstName}</p>
+                          <p className="opinion__post-date">{opinion.date}</p>
+                      </div>
+                      <div className="opinion__rating">{opinion.rate}/5 <StarIcon /></div>
+                  </div>
+                  <p className="opinion__comment">
+                      {opinion.content}
+                  </p>
+              </div>
+            ))
+        }
     </section>);
 };

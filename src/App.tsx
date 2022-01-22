@@ -3,10 +3,7 @@ import "./App.scss";
 import "./styles/global.scss";
 import { RoutesConfig } from "./routes/RoutesConfig";
 import StyledEngineProvider from "@mui/material/StyledEngineProvider";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AuthProvider } from "./context/AuthProvider";
 
@@ -18,7 +15,9 @@ const queryClient = new QueryClient({
   },
 });
 
+
 function App() {
+
   return (
     <AuthProvider>
       <StyledEngineProvider injectFirst>

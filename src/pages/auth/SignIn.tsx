@@ -7,9 +7,9 @@ import React, { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { signInSchema } from "./ValidationSchema";
 import { Link } from "react-router-dom";
-import { UserActions, UserContext } from "../../context/AuthProvider";
+import { UserActions, UserContext } from "context/AuthProvider";
 import { useMutation } from "react-query";
-import axios from "../../utils/axiosInstance";
+import axios from "utils/axiosInstance";
 import LoadingButton from '@mui/lab/LoadingButton';
 
 interface SignInProps {

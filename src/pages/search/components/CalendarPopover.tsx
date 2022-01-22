@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from "@mui/material/Typography";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 interface CalendarPopoverProps {
     buttonLabel: string;
@@ -37,7 +38,7 @@ export const CalendarPopover: React.FC<CalendarPopoverProps> = ({buttonLabel, po
                 }}
             >
 
-                <Typography sx={{ p: 2 }}>{popoverContent}</Typography>
+              {popoverContent}
             </Popover>
         </>
         );

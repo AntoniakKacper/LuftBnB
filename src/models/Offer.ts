@@ -1,3 +1,13 @@
+import { User } from "./Authentication";
+
+export interface  Opinion {
+  id: number;
+  rate: number;
+  content: string;
+  date: Date;
+  author: User;
+}
+
 export interface Offer {
   id: number;
   title: string;
@@ -8,7 +18,7 @@ export interface Offer {
   mainImage: { url: string };
   images: {url: string}[]
   owner: {}; //TODO zmienić na usera;
-  opinions: {}; //TODO zmienić na opinie
+  opinions: Opinion[]; //TODO zmienić na opinie
   ratings: {
     opinionsCount: number;
     rateCount: number;

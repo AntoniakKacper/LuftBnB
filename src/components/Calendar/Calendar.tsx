@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import {DateRange} from 'react-date-range';
-import {addDays} from 'date-fns';
-import {useState} from 'react';
+import { DateRange, RangeKeyDict } from 'react-date-range';
 
 interface CalendarProps {
+    startDate: Date;
+    endDate: Date;
+    disabledDates?: Date[];
+    onChange: (startDate: Date, endDate: Date) => void;
 }
 
 interface pickedDateRange {
@@ -14,24 +16,34 @@ interface pickedDateRange {
     key?: undefined | string;
 }
 
-export const Calendar: React.FC<CalendarProps> = ({}) => {
+export const Calendar: React.FC<CalendarProps> = ({startDate, endDate, disabledDates, onChange}) => {
     const [state, setState] = useState<pickedDateRange[]>([
         {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
+            startDate: startDate,
+            endDate: endDate,
             key: 'selection'
         }
     ]);
+
+    const onDateChange = (item: RangeKeyDict) => {
+        item.selection.startDate && item.selection.endDate &&
+            onChange(item.selection.startDate, item.selection.endDate);
+
+
+        setState([item.selection])
+
+    }
+
     return (<DateRange
         className="calendar"
         showDateDisplay={false}
-        onChange={item => setState([item.selection])}
+        onChange={onDateChange}
         moveRangeOnFirstSelection={false}
         minDate={new Date()}
         months={1}
         ranges={state}
         direction="horizontal"
         rangeColors={['#FF385CFF']}
-        disabledDates={[new Date(), addDays(new Date(), 5)]}
+        disabledDates={disabledDates}
     />);
 };

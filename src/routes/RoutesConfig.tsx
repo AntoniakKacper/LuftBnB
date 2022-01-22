@@ -12,43 +12,26 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 import { Search } from "../pages/search/Search";
 import { AddOffer } from "pages/addOffer/AddOffer";
-import { UserContext } from "../context/AuthProvider";
+import { SearchProvider } from "../context/SearchProvider";
+import { UserActions, UserContext } from "../context/AuthProvider";
+import { useMutation, useQuery } from "react-query";
+import axios from "axios";
 
 
 interface RoutesProps {
 }
 
 export const RoutesConfig: React.FC<RoutesProps> = () => {
-  //const { user, authenticated } = useSelector((state: RootState) => state.auth);
 
-  const fakeOffer = {
-    id: 1,
-    title: "\"New Forest 1\" sielski relaks na Kaszubach",
-    city: "Choroszcz",
-    maxPeople: 10,
-    dailyPrice: 25,
-    mainImage: "",
-    owner: {},
-    opinions: {}
-  };
+
+
 
   return (
     <Router>
       <Navbar/>
 
       <Routes>
-        <Route
-          path="/"
-          element={
-              <Home/>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <Home/>
-          }
-        />
+
 
         <Route
           path="/signup"
@@ -76,22 +59,6 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
           }
         />
         <Route
-          path="/search"
-          element={
-
-              <Search/>
-
-          }
-        />
-        <Route
-          path="/offer/:id"
-          element={
-            <ProtectedRoute>
-              <Offer/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/addOffer"
           element={
             <ProtectedRoute>
@@ -100,6 +67,38 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
           }
         />
       </Routes>
+
+      <SearchProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home/>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <Home/>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <Search/>
+            }
+          />
+
+          <Route
+            path="/offer/:id"
+            element={
+              <ProtectedRoute>
+                <Offer/>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </SearchProvider>
       <BottomNavbar/>
     </Router>
   );

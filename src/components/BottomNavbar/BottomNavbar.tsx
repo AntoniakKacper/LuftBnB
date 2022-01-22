@@ -16,7 +16,7 @@ interface ButtonType {
   icon: JSX.Element;
 }
 
-const BottomNavbar: React.FC<BottomNavbarProps> = ({}) => {
+const BottomNavbar: React.FC<BottomNavbarProps> = () => {
   const authenticated = true;
   const listOfActions: ButtonType[] = [
     {

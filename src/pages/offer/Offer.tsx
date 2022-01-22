@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -9,12 +9,13 @@ import { OfferReservation } from "./components/OfferReservation/OfferReservation
 import { OfferOpinions } from "./components/OfferOpinions/OfferOpinions";
 import OfferCarousel from "./components/OfferCarousel/OfferCarousel";
 import { useQuery, UseQueryResult } from "react-query";
-import { fetchCities } from "../../actions/homePageActions";
+import { fetchCities } from "actions/homePageActions";
 import { LoadingIndicator } from "components";
 import { getOfferById, getOfferOpinions, getOfferOwner, getOfferReservations } from "actions/offerPageActions";
 import { Offer as OfferModel } from "../../models/Offer";
 import Button from "@mui/material/Button";
-import { User } from "../../models/Authentication";
+import { User } from "models/Authentication";
+import { SearchActions, SearchContext } from "context/SearchProvider";
 
 interface OfferProps {
 
@@ -24,14 +25,19 @@ const Offer: React.FC<OfferProps> = () => {
   const { isFetching, data: cityData, error } = useQuery('cities', fetchCities);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { state, dispatch } = useContext(SearchContext);
+
   const {
     data: offer,
     isFetching: isOfferFetching
   }: UseQueryResult<OfferModel> = useQuery(['offer', id], () => getOfferById(id!));
-  const { data: offerOwner, isFetching: isOfferOwnerFetching }: UseQueryResult<User> =
+
+  const { data: offerOwner}: UseQueryResult<User> =
     useQuery(['offerOwner', id], () => getOfferOwner(id!));
-  const { data: offerReservations, isFetching: isOfferReservationsLoading } =
+
+  const { data: offerReservations} =
     useQuery(['offerReservations', id], () => getOfferReservations(id!));
+
   const {
     data: offerOpinions,
     isFetching: isOfferOpinionsLoading,
@@ -39,6 +45,11 @@ const Offer: React.FC<OfferProps> = () => {
   } =
     useQuery(['offerOpinions', id], () => getOfferOpinions(id!), { enabled: false });
 
+
+  const onChange = (startDate: Date, endDate: Date) => {
+    dispatch({ type: SearchActions.setStartDate, payload: startDate });
+    dispatch({ type: SearchActions.setEndDate, payload: endDate });
+  };
   if (isOfferFetching) {
     return <LoadingIndicator/>;
   }
@@ -69,6 +80,7 @@ const Offer: React.FC<OfferProps> = () => {
         <article className="offer__info">
           <div className="offer__host-info">
             <p>Mały domek</p>
+            <p>Ilość gości: {offer?.maxPeople}</p>
             <p>Gospodarz: {offerOwner?.firstName}</p>
             <p>Email: {offerOwner?.email}</p>
           </div>
@@ -80,8 +92,8 @@ const Offer: React.FC<OfferProps> = () => {
         </article>
         <div className="offer__divider"/>
         <article className="offer__reservation">
-          <Calendar/>
-          <OfferReservation dailyPrice={offer!.dailyPrice}/>
+          <Calendar startDate={state.startDate} endDate={state.endDate} onChange={onChange} />
+          <OfferReservation dailyPrice={offer!.dailyPrice} offerId={offer!.id}/>
         </article>
 
         <div className="offer__divider"/>
@@ -89,11 +101,12 @@ const Offer: React.FC<OfferProps> = () => {
           ? <div className="offer__opinion-fetch-wrapper">
             <Button className="offer__opinion-refresh-button" onClick={() => opinionsRefetch()}>Załaduj opinie</Button>
           </div>
-          :  isOfferOpinionsLoading
+          : isOfferOpinionsLoading
             ? <LoadingIndicator/>
             : <article className="offer__opinions">
               <OfferOpinions rateCount={Number(offer?.ratings.rateCount)}
                              opinionsCount={Number(offer?.ratings.opinionsCount)}
+                             opinions={offerOpinions}
               />
             </article>
         }
