@@ -2,7 +2,7 @@
   @include content-wrapper;
   @include centerXY;
   flex-direction: column;
-  padding: 24px 16px 0 16px;
+  padding-top: 24px;
 
   &__input {
     display: flex;

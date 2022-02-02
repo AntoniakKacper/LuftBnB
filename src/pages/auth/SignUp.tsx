@@ -17,7 +17,7 @@ interface SignUpProps {
 }
 
 export const SignUp: React.FC<SignUpProps> = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const { isLoading, mutate } = useMutation(async (user: signInData) => {
     const response = await axios.post('./auth/register', user);
     console.log(response);
@@ -28,7 +28,13 @@ export const SignUp: React.FC<SignUpProps> = () => {
       dispatch({ type: UserActions.setRefreshToken, payload: data.data.refresh_token });
       localStorage.setItem("LuftBnBAccessToken", data.data.access_token);
       localStorage.setItem("LuftBnBRefreshToken", data.data.refresh_token);
-      console.log(state);
+      axios.get(`${process.env.REACT_APP_API_URL}/user`, {
+        headers: {
+          authorization: `Bearer ${data.data.access_token}`
+        }
+      }).then(user => {
+        dispatch({ type: UserActions.setUser, payload: user.data});
+      }).catch((error) => console.log(error))
     }
   });
   const methods = useForm<signUpData>({

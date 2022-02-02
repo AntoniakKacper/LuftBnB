@@ -1,6 +1,7 @@
-.wishlist{
-  display: flex;
+.my-reservations{
   @include content-wrapper;
+  display: flex;
+  justify-content: center;
   &__content{
     display: flex;
     justify-content: center;
@@ -24,4 +25,18 @@
       font-size: 14px;
     }
   }
+
+  //ReservationTile styles
+  &__reservation-tile{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  &__totalPrice{
+    font-size: 18px;
+
+  }
+
 }

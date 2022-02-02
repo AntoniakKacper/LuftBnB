@@ -19,7 +19,6 @@ export const SignIn: React.FC<SignInProps> = () => {
   const { dispatch } = useContext(UserContext);
   const { data, isLoading, mutate } = useMutation(async (user: signInData) => {
     const response = await axios.post('./auth/login', user);
-    console.log(response);
     return response;
   }, {
     onSuccess: (data) => {
@@ -27,9 +26,17 @@ export const SignIn: React.FC<SignInProps> = () => {
       dispatch({ type: UserActions.setRefreshToken, payload: data.data.refresh_token });
       localStorage.setItem("LuftBnBAccessToken", data.data.access_token);
       localStorage.setItem("LuftBnBRefreshToken", data.data.refresh_token);
+      axios.get(`${process.env.REACT_APP_API_URL}/user`, {
+        headers: {
+          authorization: `Bearer ${data.data.access_token}`
+        }
+      }).then(user => {
+        dispatch({ type: UserActions.setUser, payload: user.data});
+        console.log(user);
+      }).catch((error) => console.log(error))
     }
   });
-  console.log(data);
+
 
   const methods = useForm<signInData>({
     resolver: yupResolver(signInSchema),

@@ -19,14 +19,14 @@ const queryClient = new QueryClient({
 function App() {
 
   return (
-    <AuthProvider>
-      <StyledEngineProvider injectFirst>
-        <QueryClientProvider client={queryClient}>
-          <RoutesConfig/>
-          <ReactQueryDevtools initialIsOpen={false}/>
-        </QueryClientProvider>
-      </StyledEngineProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <StyledEngineProvider injectFirst>
+            <RoutesConfig/>
+            <ReactQueryDevtools initialIsOpen={false}/>
+          </StyledEngineProvider>
+        </AuthProvider>
+    </QueryClientProvider>
   );
 
 }

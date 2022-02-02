@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import StarIcon from '@mui/icons-material/Star';
-import { useQuery } from "react-query";
-import { getOfferOpinions } from "../../../../actions/offerPageActions";
-import { Opinion } from "../../../../models/Offer";
+import { Offer, IOpinion } from "../../../../models/Offer";
+import { AddOpinion } from "../AddOpinion/AddOpinion";
+import { Opinion } from "../Opinion/Opinion";
+import { UserContext } from "../../../../context/AuthProvider";
 
 interface OfferOpinionsProps {
     rateCount: number;
     opinionsCount: number;
-    opinions: Opinion[];
+    opinions: IOpinion[];
+    refetchOpinions: () => {};
+    offer: Offer;
+    offerOwnerId: number;
 }
 
-export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinionsCount, opinions}) => {
+export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinionsCount, opinions, refetchOpinions, offer, offerOwnerId}) => {
+  const { userState } = useContext(UserContext);
+console.log(offerOwnerId)
+  console.log(userState.user?.id)
 
-    return (<section>
+  return (<section>
+    {offerOwnerId !== userState.user?.id && <AddOpinion refetchOpinions={refetchOpinions} offer={offer} />}
         <div className="opinions-title">
             <p>Recenzje</p>
             <span className="offer__ratings">
@@ -22,19 +30,8 @@ export const OfferOpinions: React.FC<OfferOpinionsProps> = ({rateCount, opinions
                     </span>
         </div>
         {
-            opinions.map((opinion) => (
-              <div className="opinion">
-                  <div className="opinion__author">
-                      <div>
-                          <p>{opinion.author.firstName}</p>
-                          <p className="opinion__post-date">{opinion.date}</p>
-                      </div>
-                      <div className="opinion__rating">{opinion.rate}/5 <StarIcon /></div>
-                  </div>
-                  <p className="opinion__comment">
-                      {opinion.content}
-                  </p>
-              </div>
+            opinions.map((opinion: IOpinion) => (
+              <Opinion opinion={opinion} onDelete={refetchOpinions} key={opinion.id}/>
             ))
         }
     </section>);

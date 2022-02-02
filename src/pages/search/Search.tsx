@@ -16,6 +16,7 @@ import { LoadingIndicator } from "components";
 import { Offer } from "models/Offer";
 import { SearchActions, SearchContext } from "../../context/SearchProvider";
 import Button from "@mui/material/Button";
+import moment from "moment";
 
 interface SearchProps {
 }
@@ -35,8 +36,6 @@ export const Search: React.FC<SearchProps> = ({}) => {
     () => fetchOffers(offerParams), {
       enabled: false
     });
-
-  //console.log(new Date()state.startDate.toISOString().split('T')[0]);
 
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
@@ -58,10 +57,9 @@ export const Search: React.FC<SearchProps> = ({}) => {
     offerParams = {
       city: state.city,
       people: state.people,
-      startDate: state.startDate.toISOString().split('T')[0],
-      endDate: state.endDate.toISOString().split('T')[0],
+      startDate: moment(state.startDate).format('YYYY-MM-DD'),
+      endDate: moment(state.endDate).format('YYYY-MM-DD'),
     }
-    console.log(offerParams)
     refetch();
   }
   

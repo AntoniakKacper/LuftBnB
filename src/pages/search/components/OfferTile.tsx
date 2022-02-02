@@ -8,7 +8,6 @@ interface OfferTileProps {
 }
 
 export const OfferTile: React.FC<OfferTileProps> = ({offer}) => {
-
     return (
         <Link to={`/offer/${offer.id}`}>
 
@@ -22,7 +21,7 @@ export const OfferTile: React.FC<OfferTileProps> = ({offer}) => {
                 <div className="tile-offer__description">
 
                     <p><u>Lokalizacja:</u> {offer.city}</p>
-                    <p>description</p>
+                    <p>{offer.description}</p>
                     <p className="tile-offer__description__price-per-day"><strong>{offer.dailyPrice} zł</strong> / noc</p>
                 </div>
             </div>

@@ -7,9 +7,9 @@ interface PublicRouteProps {
 }
 
 export const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
-  const { state } = useContext(UserContext);
+  const { userState } = useContext(UserContext);
 
-  if (state.authenticated) {
+  if (userState.authenticated) {
     return <Navigate to="/home" />;
   }
   return children;

@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface TextInputProps {
@@ -8,6 +8,9 @@ interface TextInputProps {
   placeholder: string;
   type: string;
   variant: "standard" | "filled" | "outlined";
+  multiline?: boolean;
+  numberProps?: { min: string, max: string, step: string }
+  value?: string | number;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -16,6 +19,9 @@ const TextInput: React.FC<TextInputProps> = ({
   placeholder,
   type,
   variant,
+  multiline,
+  numberProps,
+  value,
 }) => {
   const {
     register,
@@ -32,7 +38,10 @@ const TextInput: React.FC<TextInputProps> = ({
       color="primary"
       variant={variant}
       error={!!errors[name]}
+      multiline={multiline}
+      inputProps={numberProps}
       helperText={errors[name] ? errors[name]?.message : ""}
+      defaultValue={value}
     />
   );
 };

@@ -15,7 +15,7 @@ export const Home: React.FC<HomeProps> = () => {
   return (
     <main>
       <div className="home">
-        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
+        <h1>Wybierz swoje wymarzone miejsce na podróż</h1>
         <button onClick={toggle} className="home__button">
           <SearchIcon fontSize="medium" className="home__search-icon" />
           Dokąd chcesz pojechać?

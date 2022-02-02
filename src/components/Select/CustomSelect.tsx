@@ -3,6 +3,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
+import { useFormContext } from "react-hook-form";
+import { PropertyType } from 'models/Offer';
 
 interface Item {
     value: string;
@@ -10,16 +12,21 @@ interface Item {
 }
 
 interface CustomSelectProps {
-    value: string;
-    setValue: React.Dispatch<React.SetStateAction<string>>;
+    value: PropertyType | string;
+    setValue: React.Dispatch<React.SetStateAction<PropertyType | string>>;
     variant?: "filled" | "outlined" | "standard";
     label?: string;
     menuItems: Item[];
     placeholder?: string;
+    name: string;
+    defaultValue?: string;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ value, setValue, variant, label, menuItems, placeholder }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ name, value, setValue, variant, label, menuItems, placeholder, defaultValue }) => {
 
+  const {
+    register
+  } = useFormContext();
     const handleChange = (event: SelectChangeEvent) => {
         setValue(event.target.value);
     };
@@ -27,6 +34,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ value, setValue, variant, l
         <FormControl>
             <InputLabel id="simple-select-label">{label}</InputLabel>
             <Select
+                {...register(name)}
                 id="simple-select"
                 labelId="simple-select-label"
                 value={value}
@@ -34,10 +42,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ value, setValue, variant, l
                 variant={variant}
                 label={label}
                 placeholder={placeholder}
+                defaultValue={defaultValue}
             >
-                <MenuItem value="">
-                    <em>None</em>
-                </MenuItem>
+
                 {menuItems.map((menuItem, index) => (<MenuItem key={index} value={menuItem.value}>{menuItem.label}</MenuItem>))}
             </Select>
         </FormControl>

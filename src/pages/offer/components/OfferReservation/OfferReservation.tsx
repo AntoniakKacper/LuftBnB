@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import { SearchContext } from "context/SearchProvider";
 import { useMutation } from "react-query";
-import { Offer } from "models/Offer";
-import { signInData } from "../../../../models/Authentication";
 import axios from "../../../../utils/axiosInstance";
-import { UserActions } from "../../../../context/AuthProvider";
+import { Reservation } from "../../../../models/Offer";
+import { Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import LoadingButton from "@mui/lab/LoadingButton";
+import moment from "moment";
 
 interface OfferReservationProps {
   dailyPrice: number;
@@ -15,19 +17,17 @@ interface OfferReservationProps {
 export const OfferReservation: React.FC<OfferReservationProps> = ({dailyPrice, offerId}) => {
   const {state} = useContext(SearchContext);
   const {startDate, endDate} = state;
-  const { data, isLoading, mutate } = useMutation(async () => {
+  const navigate = useNavigate();
+  const { isLoading, mutate } = useMutation(async () => {
     const fData = new FormData();
-
-    fData.append('startDate', startDate.toISOString().split('T')[0]);
-    fData.append('endDate', endDate.toISOString().split('T')[0]);
-    fData.append('offer', offerId.toString())
-
+    fData.append('startDate', moment(state.startDate).format('YYYY-MM-DD'));
+    fData.append('endDate', moment(state.endDate).format('YYYY-MM-DD'));
+    fData.append('offer', offerId.toString());
     const response = await axios.post('./reservation', fData);
-
     return response;
   }, {
-    onSuccess: (data) => {
-      console.log(data, 'przeszlo');
+    onSuccess: () => {
+      navigate('/myReservations');
     }
   });
 
@@ -52,6 +52,7 @@ export const OfferReservation: React.FC<OfferReservationProps> = ({dailyPrice, o
 
     return new Intl.DateTimeFormat("pl-PL", options).format(new Date(date));
   }
+
   return (
     <div className="reservation">
       <div>
@@ -59,9 +60,12 @@ export const OfferReservation: React.FC<OfferReservationProps> = ({dailyPrice, o
           <p>{dailyPrice}zł / noc</p>
           <p><u>{formatDate(startDate)} – {formatDate(endDate)}</u></p>
       </div>
-      <div>
+      <div  className="reservation__total">
           <p>Łącznie: <u>{calculateTotalPrice(countDays(startDate, endDate))}zł</u></p>
-          <Button variant="contained" className="reservation__button" onClick={handleClick}>Rezerwuj</Button>
+        {isLoading
+          ? <LoadingButton loading variant="contained"> Submit </LoadingButton>
+          : <Button onClick={() => mutate()}>Rezerwuj</Button>
+        }
       </div>
     </div>
   );

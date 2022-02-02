@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarIcon from '@mui/icons-material/Star';
 import { Calendar } from 'components/Calendar/Calendar';
 import { OfferReservation } from "./components/OfferReservation/OfferReservation";
@@ -12,10 +11,11 @@ import { useQuery, UseQueryResult } from "react-query";
 import { fetchCities } from "actions/homePageActions";
 import { LoadingIndicator } from "components";
 import { getOfferById, getOfferOpinions, getOfferOwner, getOfferReservations } from "actions/offerPageActions";
-import { Offer as OfferModel } from "../../models/Offer";
+import { Offer as OfferModel, Reservation } from "../../models/Offer";
 import Button from "@mui/material/Button";
 import { User } from "models/Authentication";
 import { SearchActions, SearchContext } from "context/SearchProvider";
+import { UserContext } from "../../context/AuthProvider";
 
 interface OfferProps {
 
@@ -26,17 +26,22 @@ const Offer: React.FC<OfferProps> = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { state, dispatch } = useContext(SearchContext);
+  const { userState } = useContext(UserContext);
+
 
   const {
     data: offer,
     isFetching: isOfferFetching
   }: UseQueryResult<OfferModel> = useQuery(['offer', id], () => getOfferById(id!));
 
-  const { data: offerOwner}: UseQueryResult<User> =
+  const { data: offerOwner, isFetching: isOfferOwnerFetching }: UseQueryResult<User> =
     useQuery(['offerOwner', id], () => getOfferOwner(id!));
 
-  const { data: offerReservations} =
-    useQuery(['offerReservations', id], () => getOfferReservations(id!));
+  const { data: offerReservations, isFetching: isOfferReservationFetching } =
+    useQuery<Reservation[]>(['offerReservations', id], () => getOfferReservations(id!), {
+      refetchOnWindowFocus: true,
+      refetchInterval: 60000
+    });
 
   const {
     data: offerOpinions,
@@ -50,15 +55,35 @@ const Offer: React.FC<OfferProps> = () => {
     dispatch({ type: SearchActions.setStartDate, payload: startDate });
     dispatch({ type: SearchActions.setEndDate, payload: endDate });
   };
-  if (isOfferFetching) {
+
+  const disabledDatesForReservations = offerReservations?.map(reservation => {
+    const startDate = new Date(reservation.startDate);
+    const endDate = new Date(reservation.endDate);
+    let tempDate = new Date(startDate.getTime());
+    const reservationDates = [];
+    reservationDates.push(startDate);
+    while (tempDate.getTime() < endDate.getTime()) {
+      tempDate.setDate(tempDate.getDate() + 1);
+      reservationDates.push(new Date(tempDate));
+    }
+    return reservationDates;
+  });
+
+  const disabledDates = disabledDatesForReservations?.reduce((acc, date) => {
+    return acc.concat(date);
+  }, []);
+
+  if (isOfferFetching || isOfferOwnerFetching) {
     return <LoadingIndicator/>;
   }
   return (
     <main className="offer">
       <nav className="offer__nav">
         <ChevronLeftIcon onClick={() => navigate(-1)}/>
-        <FavoriteBorderIcon/>
+        {/*<FavoriteBorderIcon/>*/}
+        {userState.user?.id === offerOwner?.id && <Link to="/editOffer" state={{ id: offer?.id }}>Edytuj</Link>}
       </nav>
+
       <OfferCarousel images={offer?.images.map(image => image.url)}/>
 
       <section className="offer__content">
@@ -92,7 +117,8 @@ const Offer: React.FC<OfferProps> = () => {
         </article>
         <div className="offer__divider"/>
         <article className="offer__reservation">
-          <Calendar startDate={state.startDate} endDate={state.endDate} onChange={onChange} />
+          <Calendar startDate={state.startDate} endDate={state.endDate} onChange={onChange}
+                    disabledDates={disabledDates}/>
           <OfferReservation dailyPrice={offer!.dailyPrice} offerId={offer!.id}/>
         </article>
 
@@ -107,6 +133,9 @@ const Offer: React.FC<OfferProps> = () => {
               <OfferOpinions rateCount={Number(offer?.ratings.rateCount)}
                              opinionsCount={Number(offer?.ratings.opinionsCount)}
                              opinions={offerOpinions}
+                             offer={offer!}
+                             refetchOpinions={opinionsRefetch}
+                             offerOwnerId={offerOwner!.id!}
               />
             </article>
         }

@@ -46,4 +46,25 @@
     padding-top: 10px;
     align-self: flex-start;
   }
+
+  &__delete-opinion{
+    color: #5468ff;
+    align-self: flex-end;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
+//Add opinion
+
+.add-opinion-form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  & > button {
+    max-width: 150px;
+  }
 }

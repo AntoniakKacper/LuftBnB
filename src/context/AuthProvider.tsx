@@ -22,9 +22,9 @@ const initialState: AuthState = {
 };
 
 export const UserContext = createContext<{
-  state: AuthState; dispatch: Dispatch<IActions>
+  userState: AuthState; dispatch: Dispatch<IActions>
 }>({
-  state: initialState,
+  userState: initialState,
   dispatch: () => null
 });
 
@@ -62,26 +62,32 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-    const [state, dispatch] = useReducer(authReducer, initialState);
+    const [userState, dispatch] = useReducer(authReducer, initialState);
 
     useEffect(() => {
       if (localStorage.getItem("LuftBnBRefreshToken")) {
+
         axios.get(`${process.env.REACT_APP_API_URL}/auth/refresh-token`, {
           headers:{
             authorization: `Bearer ${localStorage.getItem("LuftBnBRefreshToken")}`
           }
         }).then(response => {
-          console.log(response);
           dispatch({ type: UserActions.setToken, payload: response.data.access_token });
           dispatch({ type: UserActions.setRefreshToken, payload: response.data.refresh_token });
           localStorage.setItem("LuftBnBAccessToken", response.data.access_token);
           localStorage.setItem("LuftBnBRefreshToken", response.data.refresh_token);
+          axios.get(`${process.env.REACT_APP_API_URL}/user`, {
+            headers: {
+              authorization: `Bearer ${response.data.access_token}`
+            }
+          }).then(user => {
+            dispatch({ type: UserActions.setUser, payload: user.data});
+          }).catch((error) => console.log(error))
         }).catch((error) => console.log(error))
       }
     }, []);
-
     return (
-      <UserContext.Provider value={{ state, dispatch }}>
+      <UserContext.Provider value={{ userState, dispatch }}>
         {children}
       </UserContext.Provider>
     );

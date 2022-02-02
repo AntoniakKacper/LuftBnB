@@ -4,9 +4,10 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SettingsIcon from '@mui/icons-material/Settings';
+import BedIcon from '@mui/icons-material/Bed';
 
 interface BottomNavbarProps {}
 
@@ -25,10 +26,11 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
       icon: <SearchIcon />,
     },
     {
-      label: "Lista życzeń",
-      path: "wishlist",
-      icon: <FavoriteBorderIcon />,
+      label: "Rezerwacje",
+      path: "myReservations",
+      icon: <BedIcon />,
     },
+
     authenticated ? {
       label: "Dodaj ofertę",
       path: "addOffer",
@@ -37,12 +39,19 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
     label: "Zaloguj się",
       path: "signup",
       icon: <AccountCircleIcon />,
-  }
+  },
+    authenticated && {
+      label: "Ustawienia",
+      path: "settings",
+      icon: <SettingsIcon />,
+    }
   ];
   const [value, setValue] = useState("search");
   const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
     setValue(newValue);
   };
+
+  //TODO ustawienia, moje oferty
 
   return (
     <Box sx={{ width: 500 }}>

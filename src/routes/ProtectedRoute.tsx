@@ -7,9 +7,9 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const {state} = useContext(UserContext);
+  const {userState} = useContext(UserContext);
 
-  if (state.authenticated) {
+  if (userState.authenticated) {
     return children;
   }
 

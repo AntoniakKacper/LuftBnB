@@ -4,18 +4,17 @@ import { BottomNavbar, Navbar } from "components";
 import { SignIn } from "pages/auth/SignIn";
 import { SignUp } from "pages/auth/SignUp";
 import Offer from "pages/offer/Offer";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/home/Home";
-import { Wishlist } from "../pages/wishlist/Wishlist";
+import { MyReservations } from "../pages/myReservations/MyReservations";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 import { Search } from "../pages/search/Search";
 import { AddOffer } from "pages/addOffer/AddOffer";
 import { SearchProvider } from "../context/SearchProvider";
-import { UserActions, UserContext } from "../context/AuthProvider";
-import { useMutation, useQuery } from "react-query";
-import axios from "axios";
+import { EditOffer } from "../pages/editOffer/EditOffer";
+import { Settings } from "pages/settingsPage/Settings";
 
 
 interface RoutesProps {
@@ -51,10 +50,10 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
           }
         />
         <Route
-          path="/wishlist"
+          path="/myReservations"
           element={
             <ProtectedRoute>
-              <Wishlist/>
+              <MyReservations/>
             </ProtectedRoute>
           }
         />
@@ -66,6 +65,23 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/editOffer"
+          element={
+            <ProtectedRoute>
+              <EditOffer/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings/>
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
 
       <SearchProvider>
