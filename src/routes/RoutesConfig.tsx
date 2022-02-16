@@ -5,7 +5,7 @@ import { SignIn } from "pages/auth/SignIn";
 import { SignUp } from "pages/auth/SignUp";
 import Offer from "pages/offer/Offer";
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, HashRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/home/Home";
 import { MyReservations } from "../pages/myReservations/MyReservations";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -25,7 +25,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
 
   return (
     <SearchProvider>
-      <Router>
+      <HashRouter>
         <Navbar/>
         <Routes>
           <Route
@@ -108,7 +108,7 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
         </Routes>
 
         <BottomNavbar/>
-      </Router>
+      </HashRouter>
     </SearchProvider>
   );
 };
