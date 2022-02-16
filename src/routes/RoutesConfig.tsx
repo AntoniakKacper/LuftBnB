@@ -23,69 +23,75 @@ interface RoutesProps {
 export const RoutesConfig: React.FC<RoutesProps> = () => {
 
 
-
-
   return (
-    <Router>
-      <Navbar/>
-
-      <Routes>
-
-
-        <Route
-          path="/signup"
-          element={
-            <PublicRoute>
-              <SignUp/>
-            </PublicRoute>
-
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <PublicRoute>
-              <SignIn/>
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/myReservations"
-          element={
-            <ProtectedRoute>
-              <MyReservations/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/addOffer"
-          element={
-            <ProtectedRoute>
-              <AddOffer/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/editOffer"
-          element={
-            <ProtectedRoute>
-              <EditOffer/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings/>
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-
-      <SearchProvider>
+    <SearchProvider>
+      <Router>
+        <Navbar/>
         <Routes>
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp/>
+              </PublicRoute>
+
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignIn/>
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/myReservations"
+            element={
+              <ProtectedRoute>
+                <MyReservations/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/addOffer"
+            element={
+              <ProtectedRoute>
+                <AddOffer/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editOffer"
+            element={
+              <ProtectedRoute>
+                <EditOffer/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <Search/>
+            }
+          />
+          <Route
+            path="/offer/:id"
+            element={
+              <ProtectedRoute>
+                <Offer/>
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/"
             element={
@@ -98,24 +104,11 @@ export const RoutesConfig: React.FC<RoutesProps> = () => {
               <Home/>
             }
           />
-          <Route
-            path="/search"
-            element={
-              <Search/>
-            }
-          />
 
-          <Route
-            path="/offer/:id"
-            element={
-              <ProtectedRoute>
-                <Offer/>
-              </ProtectedRoute>
-            }
-          />
         </Routes>
-      </SearchProvider>
-      <BottomNavbar/>
-    </Router>
+
+        <BottomNavbar/>
+      </Router>
+    </SearchProvider>
   );
 };

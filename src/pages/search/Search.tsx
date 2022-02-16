@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CalendarPopover } from "./components/CalendarPopover";
 import { Calendar } from "../../components/Calendar/Calendar";
 import TextField from '@mui/material/TextField';
@@ -13,17 +13,32 @@ import { useQuery } from "react-query";
 import { fetchCities } from "../../actions/homePageActions";
 import { fetchOffers } from "../../actions/searchPageActions";
 import { LoadingIndicator } from "components";
-import { Offer } from "models/Offer";
+import { Ifilters, Offer } from "models/Offer";
 import { SearchActions, SearchContext } from "../../context/SearchProvider";
 import Button from "@mui/material/Button";
 import moment from "moment";
+import { UserContext } from "../../context/AuthProvider";
+import { SignIn } from "../auth/SignIn";
+import {PropertyType} from "models/Offer";
 
 interface SearchProps {
 }
 
+const initialState: Ifilters = {
+  price: [0, 10000],
+  smoking: false,
+  apartment: true,
+  hotel: true,
+  hostel: true,
+  home: true,
+}
 
 export const Search: React.FC<SearchProps> = ({}) => {
   const { state, dispatch } = useContext(SearchContext);
+  const { userState } = useContext(UserContext);
+  const [filters, setFilters] = useState<Ifilters>(initialState);
+  const [filteredOffers, setFilteredOffers] = useState<Offer[] | null>(null);
+  const [prices, setPrices] = useState<number[]>([0, 10000]);
   const { isLoading: loadingCities, data: cities } = useQuery('cities', fetchCities);
   let offerParams = {
     city: "",
@@ -34,8 +49,41 @@ export const Search: React.FC<SearchProps> = ({}) => {
 
   const { isFetching: loadingOffers, data: offers, refetch } = useQuery(['offers', offerParams],
     () => fetchOffers(offerParams), {
-      enabled: false
+      enabled: false,
+      onSuccess: data => {
+        if(data.data.length >= 1) {
+          const prices = data.data.reduce((acc: any, offer: any) => {
+            return acc.concat(offer.dailyPrice);
+          }, []);
+          setFilters({
+            ...filters,
+            price: [Math.min(...prices), Math.max(...prices)]
+          })
+          setPrices([Math.min(...prices), Math.max(...prices)]);
+        }
+      }
     });
+
+  useEffect(() => {
+    const fOffers = offers?.data.filter((offer: Offer) => {
+        if(offer.dailyPrice < filters.price[0] || offer.dailyPrice > filters.price[1])
+          return false;
+        if(filters.smoking && !offer.smoking)
+          return false
+        if(offer.type === "HOME" && !filters.home)
+          return false;
+        if(offer.type === "APARTMENT" && !filters.apartment)
+          return false;
+        if(offer.type === "HOTEL" && !filters.hotel)
+          return false;
+        if(offer.type === "HOSTEL" && !filters.hostel)
+          return false;
+        return true;
+    })
+    setFilteredOffers(fOffers);
+  }, [filters.apartment, filters.home, filters.hostel, filters.hotel, filters.price, filters.smoking, offers?.data]);
+
+
 
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +110,8 @@ export const Search: React.FC<SearchProps> = ({}) => {
     }
     refetch();
   }
-  
+
+  if(userState.authenticated)
   return (
     <main className="search">
       {loadingCities ? <LoadingIndicator/> : <>
@@ -81,7 +130,7 @@ export const Search: React.FC<SearchProps> = ({}) => {
             }
           />
           <DrawerComponent drawerIcon={<FilterListIcon className="search__icon"/>}
-                           drawerContent={<MoreFilters setVisible={setVisible} visible={visible}/>}
+                           drawerContent={<MoreFilters setVisible={setVisible} visible={visible} filters={filters} setFilters={setFilters} prices={prices}/>}
                            setVisible={setVisible} visible={visible}/>
         </div>
         <div className="search__filters">
@@ -98,9 +147,10 @@ export const Search: React.FC<SearchProps> = ({}) => {
       <div className="divider"/>
       <section className="search__display-offers">
         {loadingOffers ? <LoadingIndicator/>
-          : offers?.data.map((offer: Offer) => (<OfferTile key={offer.id} offer={offer}/>))
+          : filteredOffers?.map((offer: Offer) => (<OfferTile key={offer.id} offer={offer}/>))
         }
       </section>
     </main>
   );
+  return <SignIn />
 }

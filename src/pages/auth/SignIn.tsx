@@ -32,7 +32,6 @@ export const SignIn: React.FC<SignInProps> = () => {
         }
       }).then(user => {
         dispatch({ type: UserActions.setUser, payload: user.data});
-        console.log(user);
       }).catch((error) => console.log(error))
     }
   });
@@ -44,7 +43,6 @@ export const SignIn: React.FC<SignInProps> = () => {
 
 
   const onSubmit = (data: signInData) => {
-    console.log(data);
     mutate(data);
   };
 

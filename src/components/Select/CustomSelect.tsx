@@ -19,10 +19,9 @@ interface CustomSelectProps {
     menuItems: Item[];
     placeholder?: string;
     name: string;
-    defaultValue?: string;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ name, value, setValue, variant, label, menuItems, placeholder, defaultValue }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ name, value, setValue, variant, label, menuItems, placeholder}) => {
 
   const {
     register
@@ -37,12 +36,11 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ name, value, setValue, vari
                 {...register(name)}
                 id="simple-select"
                 labelId="simple-select-label"
-                value={value}
+                value={value ? value : ""}
                 onChange={handleChange}
                 variant={variant}
                 label={label}
                 placeholder={placeholder}
-                defaultValue={defaultValue}
             >
 
                 {menuItems.map((menuItem, index) => (<MenuItem key={index} value={menuItem.value}>{menuItem.label}</MenuItem>))}

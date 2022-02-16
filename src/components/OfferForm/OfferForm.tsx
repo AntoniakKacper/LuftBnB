@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { CustomSelect, TextInput } from "../index";
-import { FormControlLabel, Switch } from "@mui/material";
 import SmokingRoomsIcon from "@mui/icons-material/SmokingRooms";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { IaddOffer, IaddOfferWithPhotos, Offer, PropertyType } from "../../models/Offer";
 import { FormSwitch } from "../FormSwitch/FormSwitch";
 

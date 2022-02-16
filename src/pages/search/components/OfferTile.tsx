@@ -14,7 +14,7 @@ export const OfferTile: React.FC<OfferTileProps> = ({offer}) => {
             <div className="tile-offer">
                 <h2>{offer.title}</h2>
                 <div className="tile-offer__image">
-                    <img src={offer.mainImage?.url} alt="obrazek"/>
+                    <img src={offer.images[0]?.url} alt="obrazek"/>
                     <FavoriteTwoToneIcon className="tile-offer__icon" />
 
                 </div>

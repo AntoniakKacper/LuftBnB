@@ -47,7 +47,7 @@ export const SignUp: React.FC<SignUpProps> = () => {
   return (
     <main className="auth">
       <div className="auth__header">
-        <h1>Zaloguj się</h1>
+        <h1>Zarejestruj się</h1>
       </div>
 
       <FormProvider {...methods}>

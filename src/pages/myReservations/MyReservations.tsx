@@ -8,6 +8,7 @@ import { OfferTile } from "../search/components/OfferTile";
 import { UserReservation } from "../../models/Offer";
 import { ReservationTile } from "./components/ReservationTile/ReservationTile";
 import { LoadingIndicator } from "../../components";
+import { SignIn } from "../auth/SignIn";
 
 interface MyReservationsProps {
 }
@@ -43,19 +44,6 @@ export const MyReservations: React.FC<MyReservationsProps> = ({}) => {
     );
 
   return (
-    <main className="my-reservations">
-      <section className="my-reservations__content">
-        <h1>Moje rezerwacje</h1>
-        <h3>Zaloguj się, by przejrzeć swoje rezerwacje</h3>
-        <p>
-          Swoje rezerwacje możesz tworzyć, wyświetlać lub edytować po zalogowaniu.
-        </p>
-        <Link to="/signin">
-          <Button type="submit" variant="contained">
-            Zaloguj się
-          </Button>
-        </Link>
-      </section>
-    </main>
+    <SignIn />
   );
 };

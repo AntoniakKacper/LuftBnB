@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -8,6 +8,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BedIcon from '@mui/icons-material/Bed';
+import { UserContext } from "../../context/AuthProvider";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 interface BottomNavbarProps {}
 
@@ -18,7 +20,8 @@ interface ButtonType {
 }
 
 const BottomNavbar: React.FC<BottomNavbarProps> = () => {
-  const authenticated = true;
+
+  const { userState } = useContext(UserContext);
   const listOfActions: ButtonType[] = [
     {
       label: "Wyszukaj",
@@ -31,19 +34,23 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
       icon: <BedIcon />,
     },
 
-    authenticated ? {
-      label: "Dodaj ofertę",
+    userState.authenticated ? {
+      label: "Dodaj",
       path: "addOffer",
       icon: <AddCircleOutlineIcon />,
     } : {
     label: "Zaloguj się",
-      path: "signup",
-      icon: <AccountCircleIcon />,
+      path: "signin",
+      icon: <LockOpenIcon />,
   },
-    authenticated && {
+    userState.authenticated ? {
       label: "Ustawienia",
       path: "settings",
       icon: <SettingsIcon />,
+    } :  {
+      label: "Zarejestruj się",
+      path: "signup",
+      icon: <AccountCircleIcon />,
     }
   ];
   const [value, setValue] = useState("search");

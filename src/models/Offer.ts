@@ -21,11 +21,10 @@ export interface Offer {
   title: string;
   city: string;
   maxPeople: number;
-  description: string
+  description: string;
   dailyPrice: number;
   type: PropertyType;
-  mainImage: { url: string };
-  images: { url: string }[]
+  images: { url: string }[];
   owner: User;
   opinions: IOpinion[];
   smoking: boolean;
@@ -39,7 +38,7 @@ export interface Image extends File {
   preview: string;
 }
 
-export interface IaddOffer{
+export interface IaddOffer {
   title: string;
   city: string;
   maxPeople: number;
@@ -49,7 +48,7 @@ export interface IaddOffer{
   smoking: boolean;
 }
 
-export interface IaddOfferWithPhotos extends IaddOffer{
+export interface IaddOfferWithPhotos extends IaddOffer {
   photos: Blob[];
 }
 
@@ -62,6 +61,16 @@ export interface UserReservation extends Reservation {
   id: number;
   price: number;
   offer: Offer;
+}
+
+export interface Ifilters {
+  price: number[];
+  smoking: boolean;
+  apartment: boolean;
+  hotel: boolean;
+  hostel: boolean;
+  home: boolean;
+
 }
 
 
